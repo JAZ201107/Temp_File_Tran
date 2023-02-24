@@ -54,16 +54,16 @@
                 <el-table-column
                         label="Download">
                     <template slot-scope="scope">
-                        <el-button style="height: 80%; width: 40%" type="primary" round
-                                   @click="downloadImage(scope.row.image_detected_url_return)">
-                            Origin
-                        </el-button>
-
-                        <el-button style="height: 80%; width: 50%" type="primary" round
-                                   @click="downloadImage(scope.row.image_detected_url_return)">
-                            Detected
-                        </el-button>
-
+                        <a target="_blank" :href="scope.row.origin_image_url" download="">
+                            <el-button type="primary" round>
+                                Origin
+                            </el-button>
+                        </a>
+                        <a target="_blank" :href="scope.row.image_detected_url_return" download="">
+                            <el-button type="primary" round>
+                                Detected
+                            </el-button>
+                        </a>
                     </template>
                 </el-table-column>
             </el-table>
@@ -90,61 +90,7 @@
     <script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
 
-        new Chart(ctx, {
-            type: "bar",
-            data: {
-                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                datasets: [{
-                    label: "Sales",
-                    tension: 0.4,
-                    borderWidth: 0,
-                    pointRadius: 0,
-                    backgroundColor: "#fff",
-                    data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
-                    maxBarThickness: 6
-                },],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                    display: false,
-                },
-                tooltips: {
-                    enabled: true,
-                    mode: "index",
-                    intersect: false,
-                },
-                scales: {
-                    yAxes: [{
-                        gridLines: {
-                            display: false,
-                        },
-                        ticks: {
-                            suggestedMin: 0,
-                            suggestedMax: 500,
-                            beginAtZero: true,
-                            padding: 0,
-                            fontSize: 14,
-                            lineHeight: 3,
-                            fontColor: "#fff",
-                            fontStyle: 'normal',
-                            fontFamily: "Open Sans",
-                        },
-                    },],
-                    xAxes: [{
-                        gridLines: {
-                            display: false,
-                        },
-                        ticks: {
-                            display: false,
-                            padding: 20,
-                        },
-                    },],
-                },
-            },
-        });
-
+       
         var ctx2 = document.getElementById("chart-line").getContext("2d");
 
         var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
