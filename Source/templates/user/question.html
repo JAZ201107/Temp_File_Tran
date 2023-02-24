@@ -110,7 +110,7 @@
                 submit_question() {
                     this.loading = true
                     axios.post(
-                        "http://localhost:8000/api/users/chat",
+                        "http://3.1.129.125:8000/api/users/chat",
                         {user_input: this.user_question}
                     ).then(value => {
                         this.user_answer = value.data['message']
