@@ -1,0 +1,153 @@
+{% extends 'layouts/base_user.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <p id="user_email_h" hidden>{{ user_email }}</p>
+
+    <h1>This is the IoT Page</h1>
+    <p>This Is user's IoT part, where user can check the Devices and get the real time image</p>
+    <div id="app">
+        <table width="100%">
+            <td width="400px">
+
+                <center>
+                    <el-button type="button" id="start" @click="get_video" type="primary">Start</el-button>
+                    <img id="video_streaming" width="100%" height="350px" alt="stream" v-bind:src="img_url"/>
+                </center>
+            </td>
+
+
+            <td width="450px">
+                <template>
+                    <el-table
+                            :data="tableData"
+                            height="400"
+                            style="width: 100%">
+                        <el-table-column
+                                label="Image"
+                                width="180">
+                            <template slot-scope="scope">
+                            <el-image
+                                style="width: 100px; height: 100px"
+                                :src="scope.row.img_url"/>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="img_count"
+                                label="Count"
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="img_date"
+                                label="Date"
+                                width="180">
+
+                        </el-table-column>
+                        <el-table-column
+                                label="Download">
+                            <template slot-scope="scope">
+                                <a target="_blank" :href="scope.row.image_url" download="">
+                                    <el-button type="primary" round>
+                                        Download
+                                    </el-button>
+                                </a>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </td>
+        </table>
+
+
+    </div>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+    <script src="/static/assets/js/plugins/chartjs.min.js"></script>
+    <script src="/static/assets/js/plugins/Chart.extension.js"></script>
+    <script src="/static/assets/js/vue.js"></script>
+    <script src="/static/assets/js/axios.min.js"></script>
+    <script src="/static/assets/element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="/static/assets/plugins/element-ui/index.css"/>
+    <link rel="stylesheet" href="/static/assets/styles/common.css"/>
+    <link rel="stylesheet" href="/static/assets/styles/icon/iconfont.css"/>
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+    </script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    img_url: "http://localhost:8000/user/webcam_default",
+                    tableData: [{
+                        img_url: "https://learn-aws-1211.s3.ap-southeast-1.amazonaws.com/images/IoT_User/IoT09.jpg",
+                        img_count:"149",
+                        img_date:"2022-12-20"
+                    },{
+                        img_url: "https://learn-aws-1211.s3.ap-southeast-1.amazonaws.com/images/IoT_User/IoT01.jpg",
+                        img_count:"107",
+                        img_date:"2022-12-19"
+                    },{
+                        img_url: "https://learn-aws-1211.s3.ap-southeast-1.amazonaws.com/images/IoT_User/IoT06.jpg",
+                        img_count:"96",
+                        img_date:"2022-12-18"
+                    },{
+                        img_url: "https://learn-aws-1211.s3.ap-southeast-1.amazonaws.com/images/IoT_User/IoT07.jpg",
+                        img_count:"92",
+                        img_date:"2022-12-17"
+                    },{
+                        img_url: "https://learn-aws-1211.s3.ap-southeast-1.amazonaws.com/images/IoT_User/IoT05.jpg",
+                        img_count:"86",
+                        img_date:"2022-12-16"
+                    },{
+                        img_url: "https://learn-aws-1211.s3.ap-southeast-1.amazonaws.com/images/IoT_User/IoT04.jpg",
+                        img_count:"76",
+                        img_date:"2022-12-15"
+                    },{
+                        img_url: "https://learn-aws-1211.s3.ap-southeast-1.amazonaws.com/images/IoT_User/IoT08.jpg",
+                        img_count:"69",
+                        img_date:"2022-12-14"
+                    },{
+                        img_url: "https://learn-aws-1211.s3.ap-southeast-1.amazonaws.com/images/IoT_User/IoT02.jpg",
+                        img_count:"50",
+                        img_date:"2022-12-13"
+                    },{
+                        img_url: "https://learn-aws-1211.s3.ap-southeast-1.amazonaws.com/images/IoT_User/IoT03.jpg",
+                        img_count:"43",
+                        img_date:"2022-12-12"
+                    }],
+                }
+            },
+            methods: {
+                get_video() {
+                    var b = document.getElementById("start")
+                    if (b.innerHTML == "Start") {
+                        this.img_url = "http://localhost:8000/user/webcam_capture"
+                        b.innerHTML = "Stop"
+                    } else {
+                        b.innerHTML = "Start"
+                        this.img_url = "http://localhost:8000/user/webcam_default"
+                    }
+
+                }
+            }
+        })
+    </script>
+
+{% endblock javascripts %}
