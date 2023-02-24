@@ -112,7 +112,7 @@ DATABASES = {
         'NAME': 'UOW_FYP_DB',  # the name of database
         'USER': 'db_admin',  # name of user
         'PASSWORD': 'db_admin_pass',  # password
-        'HOST': '127.0.0.1',
+        'HOST': 'fyp_mysql',
         'PORT': '3306',
         'TEST': {
             'NAME': 'test_DB_2'
