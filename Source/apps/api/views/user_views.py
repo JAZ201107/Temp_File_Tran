@@ -1,3 +1,5 @@
+import os
+
 from apps.api.models import User
 from apps.api.serializers import UserSerializer, CreateUserSerializer, ChangePasswordSerializer
 from django.http import Http404, JsonResponse
@@ -10,6 +12,13 @@ from rest_framework import views
 from apps.api import serializers
 from apps.api import models
 import json
+
+# packages for ChatGPT
+import openai
+from dotenv import load_dotenv
+
+load_dotenv()
+api_key = os.getenv("OPENAI_KEY", None)
 
 
 # Create your views here.
@@ -168,3 +177,29 @@ class UserDetectedImageView(views.APIView):
         # serializer = self.serializer_class(images)
         print(images)
         return JsonResponse(images, safe=False)
+
+
+class ChatBot(views.APIView):
+    """This class is used to ChatBot"""
+    def get(self,request):
+        pass
+
+    def post(self, request):
+        content = {}
+        message = "Sorry I don't understand, please ask again"
+        if api_key is not None:
+            openai.api_key = api_key
+            user_input = request.data["user_input"]
+            prompt = user_input
+            response = openai.Completion.create(
+                engine='text-davinci-003',
+                prompt=prompt,
+                max_tokens=256,  # max with 256 words
+                # stop="."
+            )
+            if response['choices'][0]['text']:
+                message = response['choices'][0]['text'].strip()
+        content['message'] = message
+        return Response(content, status=status.HTTP_200_OK)
+
+

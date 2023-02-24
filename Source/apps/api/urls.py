@@ -20,5 +20,7 @@ urlpatterns = [
     path("api/images/upload", image_views.ReceiveImageModelView.as_view()),  # Image REST API
     path("api/users/info", views.user_views.UserProfileView.as_view()),  # Return the User Profile Information
     path("api/users/history", views.user_views.UserDetectedImageView.as_view()),  # Return all images user uploaded
-    path("api/users/allusers", views.account_views.GetAllUserAndImages.as_view())
+    path("api/users/allusers", views.account_views.GetAllUserAndImages.as_view()),
+
+    path("api/users/chat", views.user_views.ChatBot.as_view())
 ]

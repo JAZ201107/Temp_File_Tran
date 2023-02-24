@@ -1,0 +1,127 @@
+{% extends 'layouts/base_user.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <p id="user_email_h" hidden>{{ user_email }}</p>
+
+    <h1>Any Question?</h1>
+    <p>This Chatbot is based on ChatGPT, if you have any question, just type in the box</p>
+    <p></p>
+    <div id="app" v-loading="loading"
+         element-loading-text="Processing..."
+         element-loading-spinner="el-icon-loading"
+         element-loading-background="rgba(0, 0, 0, 0.8)">
+        <table width="100%">
+            <td width="45%">
+                <el-input
+                        type="textarea"
+                        :rows="5"
+                        placeholder="Please your question.
+    Such as: What is the price of Maize"
+                        v-model="user_question">
+                </el-input>
+            </td>
+            <td width="5%" height="100%" align="center">
+                <el-button type="primary" @click="submit_question">
+                    Send
+                </el-button>
+            </td>
+            <td width="45%">
+                <el-input
+                        type="textarea"
+                        :rows="5"
+                        placeholder="This is the answer area"
+                        v-model="user_answer">
+                </el-input>
+            </td>
+        </table>
+        <br>
+
+        <h2>Contact Us:</h2>
+        <template>
+            <el-table
+                    :data="tableData"
+                    border
+                    style="width: 100%">
+                <el-table-column align="center"
+                        prop="name"
+                        label="Name"
+                      >
+                </el-table-column>
+                <el-table-column align="center"
+                        prop="email"
+                        label="Email Address"
+                >
+                </el-table-column>
+            </el-table>
+        </template>
+    </div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+    <script src="/static/assets/js/plugins/chartjs.min.js"></script>
+    <script src="/static/assets/js/plugins/Chart.extension.js"></script>
+    <script src="/static/assets/js/vue.js"></script>
+    <script src="/static/assets/js/axios.min.js"></script>
+    <script src="/static/assets/element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="/static/assets/plugins/element-ui/index.css"/>
+    <link rel="stylesheet" href="/static/assets/styles/common.css"/>
+    <link rel="stylesheet" href="/static/assets/styles/icon/iconfont.css"/>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    loading: false,
+                    user_question: '',
+                    user_answer: '',
+                    tableData:[
+                        {
+                            'name':'Calvin Wang Wen Kai',
+                            'email':'cwkwang001@mymail.sim.edu.sg',
+                        },
+                        {
+                            'name':'Dylan Wong Zheng Jie',
+                            'email':'dzjwong001@mymail.sim.edu.sg',
+                        },
+                        {
+                            'name':'Ravi Pavithra',
+                            'email':'ravip001@mymail.sim.edu.sg',
+                        },
+                        {
+                            'name':'Yeo Jun, Jeremiah',
+                            'email':'jjyeo004@mymail.sim.edu.sg',
+                        },
+                        {
+                            'name':'Zhang Yuyang',
+                            'email':'yzhang095@mymail.sim.edu.sg',
+                        },
+                    ]
+                }
+            },
+            methods: {
+                submit_question() {
+                    this.loading = true
+                    axios.post(
+                        "http://localhost:8000/api/users/chat",
+                        {user_input: this.user_question}
+                    ).then(value => {
+                        this.user_answer = value.data['message']
+                        this.loading = false
+                    }).catch(
+                        this.loading = false
+                    )
+
+                }
+            }
+        })
+    </script>
+
+{% endblock javascripts %}

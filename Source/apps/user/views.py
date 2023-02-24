@@ -128,3 +128,7 @@ def user_webcam_default(request):
     return StreamingHttpResponse(gen(camera.DefaultVideo()),
                                  content_type='multipart/x-mixed-replace;boundary=frame')
 
+
+
+def user_question(request):
+    return render(request, 'user/question.html')

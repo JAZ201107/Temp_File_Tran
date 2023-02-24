@@ -25,4 +25,7 @@ urlpatterns = [
 
     # Display the Video For User
     path("user/webcam_default", views.user_webcam_default, name="user_webcam_default"),
+
+    # Question With
+    path("user/question", views.user_question, name='user_question')
 ]
