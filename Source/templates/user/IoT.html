@@ -94,7 +94,7 @@
             el: "#app",
             data() {
                 return {
-                    img_url: "http://localhost:8000/user/webcam_default",
+                    img_url: "http://3.1.129.125:8000/user/webcam_default",
                     tableData: [{
                         img_url: "https://learn-aws-1211.s3.ap-southeast-1.amazonaws.com/images/IoT_User/IoT09.jpg",
                         img_count:"149",
@@ -138,11 +138,11 @@
                 get_video() {
                     var b = document.getElementById("start")
                     if (b.innerHTML == "Start") {
-                        this.img_url = "http://localhost:8000/user/webcam_capture"
+                        this.img_url = "http://3.1.129.125:8000/user/webcam_capture"
                         b.innerHTML = "Stop"
                     } else {
                         b.innerHTML = "Start"
-                        this.img_url = "http://localhost:8000/user/webcam_default"
+                        this.img_url = "http://3.1.129.125:8000/user/webcam_default"
                     }
 
                 }
